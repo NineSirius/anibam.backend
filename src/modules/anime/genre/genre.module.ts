@@ -3,9 +3,10 @@ import { GenreService } from './genre.service';
 import { GenreController } from './genre.controller';
 import { genreProviders } from './genre.provider';
 import { DatabaseModule } from 'src/core/database/database.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, HttpModule],
   controllers: [GenreController],
   providers: [...genreProviders, GenreService],
 })

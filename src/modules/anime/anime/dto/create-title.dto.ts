@@ -5,25 +5,29 @@ import {
   IsString,
   IsUrl,
   Min,
+  ValidateNested,
 } from 'class-validator';
 import { AnimeType } from '../enums/anime-type.enum';
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { AnimeNamesDto } from './anime-names.dto';
 
 export class CreateAnimeDto {
-  @ApiProperty({ example: 'Tokyou ghoul', description: 'Название аниме' })
-  @IsString()
-  name: string;
-
   @ApiProperty({
-    example: 'Токийский гуль',
-    description: 'Название аниме на русском',
+    example: {
+      ru: 'Наруто',
+      en: 'Naruto',
+      alternatives: ['ナルト', 'Naruto Uzumaki'],
+    },
+    description: 'Названия',
   })
-  @IsString()
-  russian: string;
+  @ValidateNested()
+  @Type(() => AnimeNamesDto)
+  names: AnimeNamesDto;
 
   @ApiProperty({
     example: '/media/dsdsds.png',
-    description: 'постер',
+    description: 'Постер',
     required: false,
   })
   @IsUrl()

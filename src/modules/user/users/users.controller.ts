@@ -28,14 +28,15 @@ export class UsersController {
   getAll(@Query() filters: GetUserFiltersDto) {
     return this.usersService.getAllUsers(filters);
   }
-
   // @ApiOperation({ summary: 'Получение пользователя по ID' })
   // @Get(':id')
   // findById(@Param('id') id: string) {
   //   return this.usersService.getById(+id);
   // }
 
-  @ApiOperation({ summary: 'Получение пользователя по username' })
+  @ApiOperation({
+    summary: 'Получение пользователя по username',
+  })
   @Get(':username')
   findByUsername(@Param('username') username: string) {
     return this.usersService.getUserByUsername(username);

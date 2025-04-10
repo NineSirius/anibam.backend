@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +23,18 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-  app.enableCors();
+  const corsOptions: CorsOptions = {
+    allowedHeaders: [
+      'origin',
+      'x-requested-with',
+      'content-type',
+      'accept',
+      'authorization',
+    ],
+    credentials: true,
+    origin: ['http://localhost:5174', 'http://localhost:3000'],
+  };
+  app.enableCors(corsOptions);
   await app.listen(process.env.PORT ?? 4200);
 }
 bootstrap();

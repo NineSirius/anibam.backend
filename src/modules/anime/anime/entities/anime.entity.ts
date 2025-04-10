@@ -7,12 +7,28 @@ export class Anime {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({})
-  @Column({ type: 'varchar', length: 255 })
-  name: string;
+  @ApiProperty({
+    example: {
+      ru: 'Наруто',
+      en: 'Naruto',
+      alternatives: ['ナルト', 'Naruto Uzumaki'],
+    },
+  })
+  @Column({
+    type: 'jsonb',
+    default: () => `'{"ru": "", "en": "", "alternatives": []}'`,
+  })
+  names: {
+    ru: string;
+    en: string;
+    alternatives: string[];
+  };
 
-  @Column({ type: 'varchar', length: 255 })
-  russian: string;
+  @Column({ type: 'varchar', nullable: true })
+  description: string;
+
+  @Column({ type: 'varchar', length: 255, unique: true })
+  slug: string;
 
   @Column({ type: 'varchar', length: 255 })
   poster?: string;
@@ -20,24 +36,34 @@ export class Anime {
   @Column({
     type: 'enum',
     enum: AnimeType,
+    nullable: true,
   })
   type: AnimeType;
 
   @Column('float')
   score: number;
 
-  @Column({ type: 'varchar', length: 255 })
+  @Column({ type: 'numeric', nullable: true })
+  shikimori_id: number;
+
+  @Column({ type: 'numeric', nullable: true })
+  kinopoisk_id: number;
+
+  @Column({ type: 'numeric', nullable: true })
+  imdb_id: number;
+
+  @Column({ type: 'varchar', length: 255, default: 'anons' })
   status: string;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', default: 0 })
   episodes: number;
 
-  @Column({ type: 'numeric' })
+  @Column({ type: 'numeric', default: 0 })
   episodes_aired: number;
 
-  @Column({ type: 'date', default: () => 'now()' })
+  @Column({ type: 'date', default: () => 'now()', nullable: true })
   aired_on: string;
 
-  @Column({ type: 'date', default: () => 'now()' })
+  @Column({ type: 'date', default: () => 'now()', nullable: true })
   released_on: string;
 }

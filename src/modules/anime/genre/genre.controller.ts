@@ -20,4 +20,9 @@ export class GenreController {
   create(@Body() genreDto: CreateGenreDto) {
     return this.genreService.createGenre(genreDto);
   }
+
+  @Post('load-from-shikimori')
+  createFromShikmori() {
+    return this.genreService.createFromShikimori();
+  }
 }
